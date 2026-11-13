@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Surprise for Paanda</title>
+<style>
+:root{--pink:#f7c9dc;--rose:#d96b9a;--deep:#39223c;--cream:#fff8f5;--lilac:#e8d9f4}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,'Times New Roman',serif;background:linear-gradient(135deg,#fff1f6,#f5eaff);color:var(--deep);min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}
+.screen{display:none;min-height:100vh;padding:28px 18px;align-items:center;justify-content:center}
+.screen.active{display:flex}
+.panel{width:min(900px,100%);text-align:center}
+.eyebrow{letter-spacing:4px;text-transform:uppercase;font:12px Arial,sans-serif;color:#a34f79}
+h1{font-size:clamp(38px,8vw,72px);margin:12px 0;color:#8e426b}
+h2{font-size:clamp(28px,5vw,44px);margin:10px 0}
+p{line-height:1.7}
+.sub{font:16px Arial,sans-serif;color:#76596f}
+.gift{font-size:clamp(100px,24vw,180px);filter:drop-shadow(0 15px 12px #c77a9a55);animation:bob 2s infinite ease-in-out;margin:12px}
+@keyframes bob{50%{transform:translateY(-12px) rotate(3deg)}}
+.primary,.back{padding:14px 25px;border-radius:999px;background:#a94f7b;color:white;font: bold 14px Arial,sans-serif;letter-spacing:1px;box-shadow:0 8px 20px #a94f7b33}
+.primary:hover,.back:hover{transform:translateY(-2px);background:#873b65}
+.envelope{font-size:100px;margin:10px}
+.message-card{background:#fff;border:1px solid #f1d5e2;border-radius:22px;padding:28px;max-width:650px;margin:20px auto;box-shadow:0 15px 40px #8c52701a}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:28px auto;max-width:720px}
+.tile{background:#fff;border:1px solid #f0d8e5;border-radius:22px;padding:25px 12px;min-height:155px;box-shadow:0 10px 25px #8c527014;transition:.2s;color:var(--deep)}
+.tile:hover{transform:translateY(-5px);box-shadow:0 15px 30px #8c52702b}
+.tile .emoji{font-size:44px;display:block;margin-bottom:10px}
+.tile strong{font-size:20px}
+.tile small{display:block;margin-top:7px;color:#98768a;font:13px Arial,sans-serif}
+.content-card{background:#fff;border:1px solid #f0d8e5;border-radius:24px;padding:clamp(20px,5vw,38px);margin:22px auto;max-width:760px;text-align:left;box-shadow:0 12px 35px #8c527018}
+.content-card h2{text-align:center;color:#91466e}
+.content-card p{font-size:17px;white-space:pre-line}
+.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.photo-grid img{width:100%;height:220px;object-fit:cover;border-radius:16px;background:#f6e5ed}
+.photo-grid figure{margin:0}
+.photo-grid figcaption{text-align:center;padding:8px;font:13px Arial,sans-serif;color:#8b6078}
+.memory{padding:16px 0;border-bottom:1px dashed #e8c6d7}
+.memory:last-child{border:0}
+.footer{font:12px Arial,sans-serif;color:#a17b91;margin-top:28px}
+.back{background:#6d5476;margin-top:10px}
+.confetti{position:fixed;top:-20px;font-size:22px;pointer-events:none;animation:fall 3.5s linear forwards;z-index:10}
+@keyframes fall{to{transform:translateY(110vh) rotate(700deg);opacity:0}}
+@media(max-width:520px){.grid{gap:10px}.tile{min-height:135px;padding:20px 8px}.tile strong{font-size:17px}.photo-grid img{height:155px}}
+</style>
+</head>
+<body>
+
+<!--
+EDIT YOUR WEBSITE HERE:
+1) Change the text inside the CONFIG section below.
+2) Put your photos inside the "photos" folder.
+3) Keep photo names the same as the filenames written in photoGallery.
+-->
+
+<section id="welcome" class="screen active">
+  <div class="panel">
+    <div class="eyebrow">A little something made just for you</div>
+    <h1 id="welcomeTitle">For Paanda</h1>
+    <div class="gift">🎁</div>
+    <button class="primary" onclick="openGift()">OPEN Your Dibba ✨</button>
+    <div class="footer">Made with Kutta </div>
+  </div>
+</section>
+
+<section id="letter" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Your surprise is waiting</div>
+    <div class="envelope">💌</div>
+    <h1>Chitti open kro </h1>
+    <p class="sub">Haa Mujhe pata hai harbari hai agey janey ki but pehle tum yeh parkar jaao.</p>
+    <div class="message-card"><p id="introMessage"></p></div>
+    <button class="primary" onclick="showScreen('home');celebrate()">LET'S EXPLORE 💗</button>
+  </div>
+</section>
+
+<section id="home" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Four little surprises</div>
+    <h2>Choose Your Surprise, Paanda </h2>
+    <p class="sub">Ache sai open krna special messages hai </p>
+    <div class="grid">
+      <button class="tile" onclick="showScreen('photos')"><span class="emoji">📸</span><strong>Nazar Na Lage</strong><small>Thodi si photo-bazi</small></button>
+      <button class="tile" onclick="showScreen('messages')"><span class="emoji">💌</span><strong>Dil ki Bakwas</strong><small>Kuch unsaid feeling</small></button>
+      <button class="tile" onclick="showScreen('memories')"><span class="emoji">🌸</span><strong>Yaado Ka Pitara</strong><small>Old but gold moments</small></button>
+      <button class="tile" onclick="showScreen('wishes')"><span class="emoji">🎂</span><strong>Madam Ke Nakhre</strong><small>Birthday Special wishes</small></button>
+    </div>
+    <div class="footer">Take your time. There is no hurry ♡</div>
+    <div class="footer">Thank You</div>
+  </div>
+</section>
+
+<section id="photos" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Nazar Na Lage</div><h2>Thodi si photo-bazi 📸</h2>
+    <div class="content-card"><p id="photoIntro"></p><div class="photo-grid" id="photoGrid"></div></div>
+    <button class="back" onclick="showScreen('home')">← BACK TO SURPRISES</button>
+  </div>
+</section>
+
+<section id="messages" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Dil ki Bakwas</div><h2>Kuch unsaid feeling 💌</h2>
+    <div class="content-card" id="messageList"></div>
+    <button class="back" onclick="showScreen('home')">← BACK TO SURPRISES</button>
+  </div>
+</section>
+
+<section id="memories" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Yaado Ka Pitara</div><h2>Old but gold moments 🌸</h2>
+    <div class="content-card" id="memoryList"></div>
+    <button class="back" onclick="showScreen('home')">← BACK TO SURPRISES</button>
+  </div>
+</section>
+
+<section id="wishes" class="screen">
+  <div class="panel">
+    <div class="eyebrow">Today is all about you</div><h2>Happy Birthday, Anshika! 🎂</h2>
+    <div class="content-card"><p id="finalWish"></p><h2 style="font-size:34px">🎉 💗 🎂 💗 🎉</h2><p style="text-align:center">Keep smiling and keep shining!</p></div>
+    <button class="back" onclick="showScreen('home')">← BACK TO SURPRISES</button>
+  </div>
+</section>
+
+<script>
+// ===================== CONFIG: EDIT YOUR CONTENT HERE =====================
+const CONFIG = {
+  name: "Paanda",
+
+  // Your first message after the gift opens:
+  introMessage: "Happy Birthday, Pagal Aurat🐼! \n\nI made this little website specially for you. Itna effort lagaya hai, so please achhe se explore karna! 😂. Har box ko open karna because andar kuch surprises, kuch memories aur thodi si meri pagalpan wali creativity chhupi hai. 🤭 So don't skip anything, madam! I hope this little surprise brings a BIG smile to your face. 😤\n\n Enjoy your special day, Birthday 🐼Girl! ✨",
+
+  // Add your photos in the photos folder and write their filenames below.
+  // Example: {src:"photos/our-photo-1.jpg", caption:"A lovely memory"}
+  photoIntro: "Some moments deserve to be saved forever. Here are a few snapshots!",
+  photoGallery: [
+    {src:"photos/photo4.jpeg", caption:"A special moment 💗"},
+    {src:"photos/photo3.jpeg", caption:"A beautiful memory 🌸"},
+    {src:"photos/photo2.jpeg", caption:"Keep smiling ✨"},
+    {src:"photos/photos4.jpeg", caption:"One for the memories 💕"}
+  ],
+
+  // Add, remove or edit as many messages as you want.
+  messages: [
+    {title:"A little reminder 💖", text:"Life mein chahe kuch bhi ho, bas khush rehna, haste rehna aur apni cute si smile kabhi mat khona. You deserve all the happiness, love and little magical moments in the world. 🥹❤️."},
+    {title:"Never Stop Being You ✨", text:"Kabhi khud ko change karne ki zarurat mat samajhna. Your craziness, your smile and your little imperfections make you special. Bas aise hi rehna, because you're one of a kind! 🤭🌷."},
+    {title:"One more thing 🌷", text:"I hope this year brings you lots of happiness, crazy adventures, beautiful memories and unexpected surprises. Aur haan, mai preshan krne ke liye tere agal bagal bhatakta rahunga bcus pagal aurat hai re tuu tujhe nhi preshan krunga toh or kisko krunga! 😂🎂"}
+  ],
+
+  // Replace these sample memories with your own moments/stories.
+  memories: [
+    {title:"Pehla Kissa", text:"Yaad hai jab college se ghar aate waqt bus mein tum disbalance hokar seedha seat par ja baithi thi? ."},
+    {title:"Madam Ka Gussa 😤", text:"Aur haan, tumhara mujh par gussa hona toh alag hi level ka hai. Mere kand khatam hi nahi hote aur tumhara gussa! 😂 But honestly, tumhare ye nakhre bhi memories ka part hain."},
+    {title:"Kand Abhi Baaki Hai 😂", text:"Abhi toh bahut saare moments create karne hain, aur bhi kand karne hain aur tumhe aur bhi baar hasana hai. Bas gussa thoda kam kiya karo madam! 🤭🌷."}
+  ],
+
+  // Final birthday wish:
+  finalWish: "And Finally, A Little Wish For You! 💗 I hope tumhara har din happiness, laughter aur beautiful surprises se bhara rahe. Life mein tumhare saare dreams poore ho aur tumhe woh sab mile jo tum deserve karti ho. Kabhi apni smile khona mat, hamesha khush rehna aur apne ye cute se nakhre kabhi band mat karna! 😂 I wish this year brings you countless beautiful memories, new adventures and endless reasons to smile. Bas aise hi amazing rehna, stay blessed and keep shining. And haan, abhi toh bahut saare kand aur memories banana baaki hain! 🤭❤️ Happiest Birthday once again, Anshika! 🎂💗"
+};
+// =================== END OF CONFIG: NO NEED TO EDIT BELOW ==================
+
+document.getElementById("welcomeTitle").textContent = "For " + CONFIG.name;
+document.getElementById("introMessage").textContent = CONFIG.introMessage;
+document.getElementById("photoIntro").textContent = CONFIG.photoIntro;
+document.getElementById("finalWish").textContent = CONFIG.finalWish;
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function openGift(){showScreen("letter");celebrate();}
+
+function celebrate(){
+  const symbols=["💗","✨","🎉","🌸","💕","⭐"];
+  for(let i=0;i<28;i++){
+    const bit=document.createElement("span");
+    bit.className="confetti";
+    bit.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    bit.style.left=Math.random()*100+"vw";
+    bit.style.animationDelay=(Math.random()*1.2)+"s";
+    document.body.appendChild(bit);
+    setTimeout(()=>bit.remove(),5000);
+  }
+}
+
+const photoGrid=document.getElementById("photoGrid");
+CONFIG.photoGallery.forEach(photo=>{
+  const figure=document.createElement("figure");
+  const img=document.createElement("img");
+  img.src=photo.src; img.alt=photo.caption;
+  img.onerror=()=>{img.style.display="none"; const place=document.createElement("div");place.textContent="📷 Add your photo";place.style.cssText="height:220px;display:grid;place-items:center;background:#f8e8f0;border-radius:16px;color:#9b6681;font:14px Arial";figure.prepend(place);};
+  const caption=document.createElement("figcaption");caption.textContent=photo.caption;
+  figure.append(img,caption);photoGrid.appendChild(figure);
+});
+
+const messageList=document.getElementById("messageList");
+CONFIG.messages.forEach(item=>{
+  const div=document.createElement("div");div.className="memory";
+  const h=document.createElement("h3");h.textContent=item.title;h.style.color="#994d75";
+  const p=document.createElement("p");p.textContent=item.text;
+  div.append(h,p);messageList.appendChild(div);
+});
+
+const memoryList=document.getElementById("memoryList");
+CONFIG.memories.forEach(item=>{
+  const div=document.createElement("div");div.className="memory";
+  const h=document.createElement("h3");h.textContent=item.title;h.style.color="#994d75";
+  const p=document.createElement("p");p.textContent=item.text;
+  div.append(h,p);memoryList.appendChild(div);
+});
+</script>
+</body>
+</html>
